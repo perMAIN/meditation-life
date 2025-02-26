@@ -31,6 +31,9 @@
         :class="{ 'running': isRunning }">
         {{ isRunning ? '暂停' : '开始' }}
       </button>
+      <audio class="background-audio" autoplay loop :muted="!isRunning" :volume="audioVolume" :src="backgroundAudioSrc" ref="audioRef">
+        <!-- <source :src="backgroundAudioSrc" type="audio/mp3" ref="audioRef"> -->
+      </audio>
     </div>
 
     <!-- 底部控制栏 -->
@@ -144,7 +147,7 @@ const durationOptions = [
 
 const soundOptions = [
   { label: '火焰声', value: 'fire' },
-  { label: '雨声', value: 'rain' },
+  { label: '海浪声', value: 'wave' },
   { label: '树林声', value: 'forest' }
 ]
 
@@ -156,7 +159,11 @@ const guidanceOptions = [
 
 const selectedSound = ref('')
 const selectedGuidance = ref('')
-const volume = ref(50)
+const volume = ref(20)
+// 计算属性：将 volume 转换为 [0, 1] 范围的值
+const audioVolume = computed(() => {
+  return volume.value / 100
+})
 
 const timerDialogVisible = ref(false)
 const soundDialogVisible = ref(false)
@@ -172,6 +179,19 @@ const backgroundVideoSrc = computed(() => {
       return '/src/assets/videos/men.mp4'
     default:
       return ''
+  }
+})
+
+const backgroundAudioSrc = computed(() => {
+  switch (selectedSound.value) {
+    case 'fire':
+      return '/src/assets/sounds/fire.mp3'
+    case 'wave':
+      return '/src/assets/sounds/waves.mp3'
+    case 'forest':  
+      return '/src/assets/sounds/leaves.mp3'
+    default:
+      return '/src/assets/sounds/waves.mp3'
   }
 })
 
@@ -243,6 +263,12 @@ watch(selectedBackground, (newValue) => {
     gradientBgRef.value.setAttribute('data-theme', newValue)
   }
 })
+
+
+
+// watch(volume, (newValue) => {
+//   volume.value = newValue / 100
+// })
 
 onUnmounted(() => {
   if (timerInterval) {
