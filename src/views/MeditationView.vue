@@ -174,9 +174,9 @@ const selectedBackground = ref('ripple-purple') // 默认使用紫色光晕背�
 const backgroundVideoSrc = computed(() => {
   switch (selectedBackground.value) {
     case 'girl':
-      return '@/assets/videos/girl.mp4'
+      return new URL('@/assets/videos/girl.mp4', import.meta.url).href
     case 'man':
-      return '@/assets/videos/men.mp4'
+      return new URL('@/assets/videos/men.mp4', import.meta.url).href
     default:
       return ''
   }
@@ -185,13 +185,13 @@ const backgroundVideoSrc = computed(() => {
 const backgroundAudioSrc = computed(() => {
   switch (selectedSound.value) {
     case 'fire':
-      return '@/assets/sounds/fire.mp3'
+      return new URL('@/assets/sounds/fire.mp3', import.meta.url).href
     case 'wave':
-      return '@/assets/sounds/waves.mp3'
+      return new URL('@/assets/sounds/waves.mp3', import.meta.url).href
     case 'forest':  
-      return '@/assets/sounds/leaves.mp3'
+      return new URL('@/assets/sounds/leaves.mp3', import.meta.url).href
     default:
-      return '@/assets/sounds/waves.mp3'
+      return new URL('@/assets/sounds/waves.mp3', import.meta.url).href
   }
 })
 
